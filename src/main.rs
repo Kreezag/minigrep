@@ -1,7 +1,5 @@
 use std::{env, process};
 use minigrep::{Config, run};
-use std::convert::TryFrom;
-use std::error::Error;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
