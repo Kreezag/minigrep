@@ -32,7 +32,6 @@ impl Config {
 pub fn run(config: Config) -> Result<(), Box<dyn Error>>{
     let content = fs::read_to_string(config.file_path)?;
 
-
     let result = if config.ignore_case {
         search_insensitive(&config.query, &content)
     } else {
@@ -47,27 +46,13 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>>{
 }
 
 pub fn search<'a>(query: &str, content: &'a str) -> Vec<&'a str> {
-    let mut results = Vec::new();
-    for line in content.lines() {
-        if line.contains(query) {
-            results.push(line);
-        }
-    }
-
-    results
+    content.lines().filter(|line| line.contains(query) ).collect()
 }
 
 pub fn search_insensitive<'a>(query: &str, content: &'a str) -> Vec<&'a str> {
-    let mut results = Vec::new();
-
     let query = query.to_lowercase();
-    for line in content.lines() {
-        if line.to_lowercase().contains(&query) {
-            results.push(line)
-        }
-    }
 
-    results
+    content.lines().filter(|line| line.to_lowercase().contains(&query) ).collect()
 }
 
 #[cfg(test)]
